@@ -8,14 +8,22 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     weak var delegate: PlacesTableViewController?
+    var locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // This is for the location setup
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
         // Define Latitude and Longitude of a specific location ex. Ontario
         let latidude : CLLocationDegrees = 43.64//51.25//43.64
         let longitude: CLLocationDegrees = -79.38//-85.32//-79.38
