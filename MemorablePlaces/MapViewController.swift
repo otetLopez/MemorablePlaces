@@ -17,7 +17,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // Do any additional setup after loading the view.
         // This is for the location setup
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -43,7 +43,64 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         // Set MapView with the set region
         mapView.setRegion(region, animated: true)
-        // Do any additional setup after loading the view.
+
+        // Add a long press gesture
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        mapView.addGestureRecognizer(uilpgr)
+    }
+    
+    @objc func longPress(gestureRecognizer : UIGestureRecognizer) {
+        guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else
+          { return }
+
+          if longPress.state == .ended { // When gesture end
+            let touchPoint = gestureRecognizer.location(in: mapView)
+            let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+            // PIN Location: Add annotation
+            let annotation = MKPointAnnotation()
+            annotation.title = "Pinned Location"
+            annotation.coordinate = coordinate
+        
+            
+
+            
+            // Get address for touch coordinates.
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                print(error)
+            }  else {
+                if let placemark = placemarks?[0] {
+                    var address = ""
+                    var subThoroufare = ""
+                    if placemark.subThoroughfare != nil {
+                        subThoroufare = placemark.subThoroughfare!
+                    }
+                        
+                    var thoroufare = ""
+                    if placemark.thoroughfare != nil {
+                        thoroufare = placemark.thoroughfare!
+                    }
+                        
+                    var subLocality = ""
+                    if placemark.subLocality != nil {
+                        subLocality = placemark.subLocality!
+                    }
+                        
+                    var subAdministrativeArea = ""
+                    if placemark.subAdministrativeArea != nil {
+                        subAdministrativeArea = placemark.subAdministrativeArea!
+                    }
+                    annotation.title = "\(subThoroufare) \(thoroufare) \(subLocality) \(subAdministrativeArea)"
+                    }
+                }}
+            
+            
+            if mapView.annotations.count >= 1 {
+                mapView.removeAnnotations(mapView.annotations)
+            }
+            mapView.addAnnotation(annotation)
+          }
     }
     
 
