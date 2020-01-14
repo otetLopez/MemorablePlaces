@@ -10,6 +10,7 @@ import UIKit
 
 class PlacesTableViewController: UITableViewController {
     var placesList = [Place]()
+    var listIdx : Int = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,6 +41,11 @@ class PlacesTableViewController: UITableViewController {
         placesList.append(place)
     }
     
+    func addPlace(place: Place, index: Int) {
+        print("DEBUG: Update place \(place.getAddress()) \(place.getCoordinates)")
+        placesList.insert(place, at: index)
+    }
+    
     func removePlace(address: String) {
         print("DEBUG: Removing \(address)")
         if placesList.count > 0 {
@@ -55,9 +61,15 @@ class PlacesTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
+        listIdx = -1
         print("DEBUG: Total places \(placesList.count)")
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        listIdx = indexPath.row
+        print("You selected \(listIdx) \(placesList[indexPath.row].getAddress())")
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

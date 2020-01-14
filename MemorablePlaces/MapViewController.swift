@@ -16,6 +16,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     weak var delegate: PlacesTableViewController?
     var locationManager = CLLocationManager()
     var address : String = ""
+    var index : Int = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -48,6 +50,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         // Add a long press gesture
         let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
         mapView.addGestureRecognizer(uilpgr)
+        
+        // Check if this map should load an existing annotation
+        index = self.delegate?.listIdx ?? -1
+        if index >= 0 {
+            print("DEBUG: Load Location at index \(index)")
+            loadCurrentLocation(index: index)
+        }
+        
     }
     
     @objc func longPress(gestureRecognizer : UIGestureRecognizer) {
@@ -108,7 +118,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     func addAddress (newAddr : String, coordinate : CLLocationCoordinate2D) {
         print("DEBUG: This is the title (3) \(newAddr)")
         let newPlace = Place(name: newAddr, coordinate: coordinate)
-        delegate?.addPlace(place: newPlace)
+        if index >= 0 {
+            delegate?.addPlace(place: newPlace, index: index)
+        } else {
+            delegate?.addPlace(place: newPlace)
+        }
+        
+    }
+    
+    func loadCurrentLocation (index : Int) {
+        let currPlace : Place = (delegate?.placesList[index])!
+        let annotation = MKPointAnnotation()
+        print("DEBUG: Loading location \(currPlace.getAddress())")
+        annotation.title = currPlace.getAddress()
+        annotation.coordinate = currPlace.getCoordinates()
+        mapView.addAnnotation(annotation)
     }
 
     /*
