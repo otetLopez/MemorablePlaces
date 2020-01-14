@@ -14,6 +14,7 @@
 		F567C4A723CD15FF00B688C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F567C4A623CD15FF00B688C6 /* Main.storyboard */; };
 		F567C4A923CD179A00B688C6 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F567C4A823CD179A00B688C6 /* PlacesTableViewController.swift */; };
 		F567C4AB23CD189600B688C6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F567C4AA23CD189600B688C6 /* MapViewController.swift */; };
+		F567C4AD23CD67B700B688C6 /* Places.swift in Sources */ = {isa = PBXBuildFile; fileRef = F567C4AC23CD67B700B688C6 /* Places.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		F567C4A623CD15FF00B688C6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F567C4A823CD179A00B688C6 /* PlacesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
 		F567C4AA23CD189600B688C6 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		F567C4AC23CD67B700B688C6 /* Places.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Places.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				F567C4A023CD122F00B688C6 /* Info.plist */,
 				F567C4A823CD179A00B688C6 /* PlacesTableViewController.swift */,
 				F567C4AA23CD189600B688C6 /* MapViewController.swift */,
+				F567C4AC23CD67B700B688C6 /* Places.swift */,
 			);
 			path = MemorablePlaces;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F567C4AD23CD67B700B688C6 /* Places.swift in Sources */,
 				F567C49323CD122C00B688C6 /* AppDelegate.swift in Sources */,
 				F567C49523CD122C00B688C6 /* SceneDelegate.swift in Sources */,
 				F567C4A923CD179A00B688C6 /* PlacesTableViewController.swift in Sources */,

@@ -15,6 +15,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
     weak var delegate: PlacesTableViewController?
     var locationManager = CLLocationManager()
+    var address : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -52,17 +53,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @objc func longPress(gestureRecognizer : UIGestureRecognizer) {
         guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else
           { return }
-
+        
           if longPress.state == .ended { // When gesture end
             let touchPoint = gestureRecognizer.location(in: mapView)
             let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
             // PIN Location: Add annotation
             let annotation = MKPointAnnotation()
-            annotation.title = "Pinned Location"
             annotation.coordinate = coordinate
-        
             
-
+        
             
             // Get address for touch coordinates.
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -71,7 +70,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 print(error)
             }  else {
                 if let placemark = placemarks?[0] {
-                    var address = ""
                     var subThoroufare = ""
                     if placemark.subThoroughfare != nil {
                         subThoroufare = placemark.subThoroughfare!
@@ -92,17 +90,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                         subAdministrativeArea = placemark.subAdministrativeArea!
                     }
                     annotation.title = "\(subThoroufare) \(thoroufare) \(subLocality) \(subAdministrativeArea)"
+                    self.address = "\(subThoroufare) \(thoroufare) \(subLocality) \(subAdministrativeArea)"
+                    print("DEBUG: This is the title \(self.address)")
+                    self.addAddress(newAddr : self.address, coordinate : coordinate)
+                    
                     }
                 }}
-            
-            
             if mapView.annotations.count >= 1 {
+                let addr : String = String(mapView.annotations[0].title!!)
+                delegate?.removePlace(address: "\(addr)")
                 mapView.removeAnnotations(mapView.annotations)
             }
             mapView.addAnnotation(annotation)
           }
     }
     
+    func addAddress (newAddr : String, coordinate : CLLocationCoordinate2D) {
+        print("DEBUG: This is the title (3) \(newAddr)")
+        let newPlace = Place(name: newAddr, coordinate: coordinate)
+        delegate?.addPlace(place: newPlace)
+    }
 
     /*
     // MARK: - Navigation

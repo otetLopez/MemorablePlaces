@@ -9,7 +9,7 @@
 import UIKit
 
 class PlacesTableViewController: UITableViewController {
-
+    var placesList = [Place]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,27 +20,43 @@ class PlacesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return placesList.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "places", for: indexPath)
+        cell.textLabel?.text = placesList[indexPath.row].getAddress()
         return cell
     }
-    */
+    
+    func addPlace(place: Place) {
+        print("DEBUG: Added place \(place.getAddress()) \(place.getCoordinates)")
+        placesList.append(place)
+    }
+    
+    func removePlace(address: String) {
+        print("DEBUG: Removing \(address)")
+        if placesList.count > 0 {
+            var index : Int = 0
+            for p in placesList {
+                if p.getAddress() == address {
+                    placesList.remove(at: index)
+                }
+                index += 1
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+        print("DEBUG: Total places \(placesList.count)")
+    }
 
     /*
     // Override to support conditional editing of the table view.
